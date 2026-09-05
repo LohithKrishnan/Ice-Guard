@@ -353,20 +353,20 @@ export default function AntarcticMap() {
 
   return (
     <div className="relative w-full h-full min-h-[560px] bg-polar-950 flex flex-col overflow-hidden select-none">
-      {/* Switch between Leaflet & Polar Radar */}
+      {/* Switch between Leaflet & Polar Radar — isolated stacking context keeps Leaflet z-indices contained */}
       {projectionMode === "polar" ? (
         <PolarRadarView />
       ) : (
-        <div ref={mapContainerRef} className="w-full h-full min-h-[560px]" />
+        <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" style={{ isolation: "isolate", zIndex: 0 }} />
       )}
 
       {/* Floating Tactical Layer Control HUD */}
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-4 right-4" style={{ zIndex: 1000 }}>
         <MapLayerControl onSelectSector={handleSectorJump} />
       </div>
 
       {/* Floating Coordinates & Telemetry HUD at Bottom-Left */}
-      <div className="absolute bottom-4 left-4 z-20 flex items-center space-x-2">
+      <div className="absolute bottom-4 left-4 flex items-center space-x-2" style={{ zIndex: 1000 }}>
         <div className="bg-polar-950/90 backdrop-blur-md border border-polar-750/80 px-3 py-1.5 rounded text-xs font-mono text-slate-300 flex items-center space-x-3 shadow-lg">
           <div className="flex items-center space-x-1.5 text-cyan-400">
             <Crosshair className="w-3.5 h-3.5 animate-spin-slow" />
@@ -384,7 +384,7 @@ export default function AntarcticMap() {
 
       {/* Selected Iceberg Popup Card Modal / Drawer */}
       {activeBergDetail && (
-        <div className="absolute bottom-6 right-6 z-30 w-84 sm:w-96 bg-polar-950/95 backdrop-blur-xl border border-cyan-500/50 rounded-lg p-4 shadow-2xl animate-in slide-in-from-bottom-3 text-xs">
+        <div className="absolute bottom-6 right-6 w-84 sm:w-96 bg-polar-950/95 backdrop-blur-xl border border-cyan-500/50 rounded-lg p-4 shadow-2xl animate-in slide-in-from-bottom-3 text-xs" style={{ zIndex: 1000 }}>
           {/* Header */}
           <div className="flex items-start justify-between pb-2 border-b border-polar-750">
             <div>

@@ -40,6 +40,9 @@ body {
 .leaflet-container {
   background-color: #030712 !important;
   font-family: inherit;
+  /* Create isolated stacking context — Leaflet's internal z-indices (200-800) will NOT escape this container */
+  isolation: isolate;
+  z-index: 0;
 }
 
 /* OpenStreetMap Tactical Dark Filter */
