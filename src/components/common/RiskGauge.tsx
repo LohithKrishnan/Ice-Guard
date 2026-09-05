@@ -3,7 +3,7 @@
 import React from "react";
 
 interface RiskGaugeProps {
-  score: number; // 0 to 100
+  score: number;
   size?: number;
   label?: string;
   subLabel?: string;
@@ -19,34 +19,32 @@ export default function RiskGauge({
 }: RiskGaugeProps) {
   const normalized = Math.min(100, Math.max(0, score));
 
-  // Determine color and status
-  let strokeColor = "#10B981"; // Low
+  let strokeColor = "#4A7C59"; // low — muted green
   let statusText = "LOW HAZARD";
-  let textColor = "text-emerald-400";
+  let textColor = "#4A7C59";
 
   if (normalized >= 75) {
-    strokeColor = "#EF4444";
+    strokeColor = "#8B2A2A";
     statusText = "CRITICAL RISK";
-    textColor = "text-red-400";
+    textColor = "#C87878";
   } else if (normalized >= 55) {
-    strokeColor = "#F97316";
-    statusText = "MODERATE / ELEVATED";
-    textColor = "text-orange-400";
+    strokeColor = "#9B4A2A";
+    statusText = "ELEVATED";
+    textColor = "#C89070";
   } else if (normalized >= 35) {
-    strokeColor = "#F59E0B";
-    statusText = "MODERATE RISK";
-    textColor = "text-amber-400";
+    strokeColor = "#9C7B2A";
+    statusText = "MODERATE";
+    textColor = "#C8A850";
   }
 
-  // Semi-circle SVG calculation
-  const strokeWidth = 14;
+  const strokeWidth = 10;
   const radius = (size - strokeWidth * 2) / 2;
   const center = size / 2;
-  const circumference = Math.PI * radius; // 180 degree semi-circle
+  const circumference = Math.PI * radius;
   const strokeDashoffset = circumference - (normalized / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center p-3 text-center">
+    <div className="flex flex-col items-center justify-center text-center" style={{ padding: 12 }}>
       <div className="relative" style={{ width: size, height: size / 2 + 30 }}>
         <svg
           width={size}
@@ -54,25 +52,15 @@ export default function RiskGauge({
           viewBox={`0 0 ${size} ${size / 2 + 10}`}
           className="overflow-visible"
         >
-          <defs>
-            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#10B981" />
-              <stop offset="45%" stopColor="#F59E0B" />
-              <stop offset="70%" stopColor="#F97316" />
-              <stop offset="100%" stopColor="#EF4444" />
-            </linearGradient>
-          </defs>
-
-          {/* Background Arc */}
+          {/* Background track */}
           <path
             d={`M ${strokeWidth} ${center} A ${radius} ${radius} 0 0 1 ${size - strokeWidth} ${center}`}
             fill="none"
-            stroke="#0f172a"
+            stroke="#1A1A1A"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
-
-          {/* Filled Metric Arc */}
+          {/* Filled arc */}
           <path
             d={`M ${strokeWidth} ${center} A ${radius} ${radius} 0 0 1 ${size - strokeWidth} ${center}`}
             fill="none"
@@ -83,49 +71,54 @@ export default function RiskGauge({
             strokeLinecap="round"
             className="transition-all duration-700 ease-out"
           />
-
-          {/* Tick marks at 0, 25, 50, 75, 100 */}
+          {/* Tick marks */}
           {[0, 25, 50, 75, 100].map((tick) => {
             const angle = Math.PI * (1 - tick / 100);
-            const x1 = center + (radius - 12) * Math.cos(angle);
-            const y1 = center - (radius - 12) * Math.sin(angle);
+            const x1 = center + (radius - 8) * Math.cos(angle);
+            const y1 = center - (radius - 8) * Math.sin(angle);
             const x2 = center + (radius + 2) * Math.cos(angle);
             const y2 = center - (radius + 2) * Math.sin(angle);
-
             return (
               <line
                 key={tick}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="#475569"
-                strokeWidth="1.5"
+                x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke="rgba(255,255,255,0.12)"
+                strokeWidth="1"
               />
             );
           })}
         </svg>
 
-        {/* Center Score Readout */}
+        {/* Score readout */}
         <div className="absolute inset-x-0 bottom-2 flex flex-col items-center">
-          <div className="flex items-baseline space-x-1 font-mono">
-            <span className={`text-4xl font-black ${textColor}`}>
+          <div className="flex items-baseline gap-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <span style={{ fontSize: 36, fontWeight: 700, color: textColor, lineHeight: 1 }}>
               {normalized}
             </span>
-            <span className="text-slate-500 text-xs font-semibold">/ 100</span>
+            <span style={{ color: "#4A4540", fontSize: 11 }}>/ 100</span>
           </div>
           {showStatusText && (
-            <span className={`text-[10px] font-mono tracking-wider font-bold ${textColor} uppercase mt-0.5`}>
+            <span
+              className="uppercase tracking-widest font-semibold mt-1"
+              style={{ color: textColor, fontSize: 9, letterSpacing: "0.15em" }}
+            >
               {statusText}
             </span>
           )}
         </div>
       </div>
 
-      <div className="text-[11px] font-mono text-slate-400 font-semibold tracking-wider mt-1 uppercase">
+      <div
+        className="uppercase tracking-widest font-medium mt-1"
+        style={{ color: "#4A4540", fontSize: 9, letterSpacing: "0.14em" }}
+      >
         {label}
       </div>
-      {subLabel && <div className="text-[10px] font-mono text-slate-500 mt-0.5">{subLabel}</div>}
+      {subLabel && (
+        <div className="mt-0.5" style={{ color: "#4A4540", fontSize: 9 }}>
+          {subLabel}
+        </div>
+      )}
     </div>
   );
 }

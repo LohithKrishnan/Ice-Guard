@@ -18,7 +18,6 @@ import {
   Menu,
   X,
   Radio,
-  ExternalLink,
 } from "lucide-react";
 import { MOCK_ALERTS } from "@/services/alertService";
 
@@ -28,148 +27,171 @@ export default function Sidebar() {
   const unreadAlerts = MOCK_ALERTS.filter((a) => !a.acknowledged).length;
 
   const navItems = [
-    { label: "Dashboard", href: "/", icon: Compass },
-    { label: "Sea Ice", href: "/sea-ice", icon: Snowflake },
-    { label: "Icebergs", href: "/icebergs", icon: TriangleAlert },
+    { label: "Dashboard",     href: "/",            icon: Compass     },
+    { label: "Sea Ice",       href: "/sea-ice",     icon: Snowflake   },
+    { label: "Icebergs",      href: "/icebergs",    icon: TriangleAlert },
     { label: "Route Planner", href: "/route-planner", icon: Navigation },
-    { label: "Risk Analysis", href: "/risk", icon: ShieldAlert },
-    { label: "Satellite Data", href: "/satellite", icon: Satellite },
-    { label: "AI Predictions", href: "/predictions", icon: Cpu },
-    { label: "Alerts", href: "/alerts", icon: BellRing, badge: unreadAlerts },
-    { label: "Analytics", href: "/analytics", icon: LineChart },
+    { label: "Risk Analysis", href: "/risk",         icon: ShieldAlert },
+    { label: "Satellite",     href: "/satellite",    icon: Satellite   },
+    { label: "AI Predictions",href: "/predictions",  icon: Cpu         },
+    { label: "Alerts",        href: "/alerts",       icon: BellRing, badge: unreadAlerts },
+    { label: "Analytics",     href: "/analytics",    icon: LineChart   },
   ];
 
   return (
     <>
-      {/* Mobile Menu Toggle Button */}
+      {/* Mobile toggle */}
       <div className="lg:hidden fixed bottom-4 right-4 z-50">
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-full shadow-lg border border-cyan-300 flex items-center justify-center focus:outline-none"
+          className="p-3 rounded-full flex items-center justify-center focus:outline-none"
+          style={{ background: "#1A1A1A", border: "1px solid rgba(255,255,255,0.08)" }}
           aria-label="Toggle Navigation"
         >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileOpen ? <X className="w-4 h-4 text-sand-100" /> : <Menu className="w-4 h-4 text-sand-100" />}
         </button>
       </div>
 
-      {/* Backdrop for mobile */}
+      {/* Mobile backdrop */}
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden fixed inset-0 bg-polar-950/80 backdrop-blur-sm z-40"
+          className="lg:hidden fixed inset-0 z-40"
+          style={{ background: "rgba(13,13,13,0.85)", backdropFilter: "blur(4px)" }}
         />
       )}
 
-      {/* Main Sidebar */}
+      {/* Sidebar */}
       <aside
-        className={`fixed lg:static top-0 bottom-0 left-0 w-64 bg-polar-950 border-r border-polar-750/70 flex flex-col z-40 transition-transform duration-300 ease-in-out ${
+        className={`fixed lg:static top-0 bottom-0 left-0 z-40 flex flex-col transition-transform duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
+        style={{
+          width: 220,
+          background: "#0D0D0D",
+          borderRight: "1px solid rgba(255,255,255,0.06)",
+        }}
       >
-        {/* Brand Header */}
-        <div className="p-4 border-b border-polar-750/70">
-          <Link
-            href="/"
-            onClick={() => setMobileOpen(false)}
-            className="flex items-start space-x-3 group"
-          >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-700 flex items-center justify-center text-white shadow-cyan-glow border border-cyan-400/40 group-hover:scale-105 transition-transform flex-shrink-0">
-              <Compass className="w-5 h-5 text-white animate-spin-slow" />
+        {/* Brand */}
+        <div className="px-5 py-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <Link href="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-3 group">
+            <div
+              className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+              style={{ background: "#1A1A1A", border: "1px solid rgba(184,165,138,0.25)" }}
+            >
+              <Compass className="w-4 h-4" style={{ color: "#B8A58A" }} />
             </div>
             <div>
-              <div className="font-mono font-black tracking-wider text-base text-white flex items-center gap-1.5">
-                ICEGUARD <span className="text-cyan-400 font-extrabold">AI</span>
+              <div className="font-semibold tracking-wider text-sm" style={{ color: "#F2F0EB", letterSpacing: "0.08em" }}>
+                ICEGUARD<span style={{ color: "#B8A58A" }}> AI</span>
               </div>
-              <div className="text-[9px] tracking-widest uppercase font-mono font-medium text-slate-400">
-                ANTARCTIC MARITIME INTEL
+              <div className="text-[9px] tracking-widest uppercase mt-0.5" style={{ color: "#4A4540", letterSpacing: "0.15em" }}>
+                Antarctic Intel
               </div>
             </div>
           </Link>
         </div>
 
-        {/* Navigation Items */}
-        <div className="flex-1 py-3 px-2 overflow-y-auto space-y-0.5">
-          <div className="px-3 py-1.5 text-[10px] font-mono tracking-widest uppercase text-slate-500 font-semibold">
-            NAVIGATION MODULES
+        {/* Nav */}
+        <nav className="flex-1 py-4 px-3 overflow-y-auto">
+          <div
+            className="text-[9px] uppercase tracking-widest px-2 mb-3 font-medium"
+            style={{ color: "#4A4540", letterSpacing: "0.18em" }}
+          >
+            Navigation
           </div>
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
+          <div className="space-y-0.5">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all"
+                  style={
+                    isActive
+                      ? {
+                          background: "rgba(184,165,138,0.08)",
+                          color: "#B8A58A",
+                          border: "1px solid rgba(184,165,138,0.15)",
+                        }
+                      : {
+                          color: "#8C8578",
+                          border: "1px solid transparent",
+                        }
+                  }
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLElement).style.color = "#F2F0EB";
+                      (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as HTMLElement).style.color = "#8C8578";
+                      (e.currentTarget as HTMLElement).style.background = "transparent";
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: isActive ? "#B8A58A" : "#4A4540" }} />
+                    <span>{item.label}</span>
+                  </div>
+                  {item.badge !== undefined && item.badge > 0 && (
+                    <span
+                      className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full"
+                      style={{ background: "rgba(139,42,42,0.25)", color: "#C87878", border: "1px solid rgba(139,42,42,0.4)" }}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-all group ${
-                  isActive
-                    ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 shadow-[0_0_12px_rgba(6,182,212,0.15)]"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-polar-900/80 border border-transparent"
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <Icon
-                    className={`w-4 h-4 transition-colors ${
-                      isActive
-                        ? "text-cyan-400"
-                        : "text-slate-400 group-hover:text-cyan-300"
-                    }`}
-                  />
-                  <span>{item.label}</span>
-                </div>
-                {item.badge !== undefined && item.badge > 0 && (
-                  <span className="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded-full bg-red-500/20 border border-red-500/40 text-red-400">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* Bottom Section */}
-        <div className="p-3 border-t border-polar-750/70 space-y-2 bg-polar-900/40">
-          {/* System Status Box */}
-          <div className="p-2.5 rounded bg-polar-900/80 border border-polar-800 text-xs">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Activity className="w-3 h-3 text-emerald-400" />
-                SYSTEM HEALTH
+        {/* Bottom */}
+        <div className="px-3 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          {/* System status */}
+          <div
+            className="mt-3 p-2.5 rounded-md text-xs"
+            style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[9px] uppercase tracking-widest flex items-center gap-1.5" style={{ color: "#4A4540" }}>
+                <Activity className="w-3 h-3" style={{ color: "#4A7C59" }} />
+                System
               </span>
-              <span className="text-[10px] font-mono text-emerald-400 font-semibold">
-                99.8%
-              </span>
+              <span className="text-[10px] font-medium" style={{ color: "#4A7C59" }}>99.8%</span>
             </div>
-            <div className="w-full bg-polar-800 h-1.5 rounded-full overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full rounded-full"
-                style={{ width: "99.8%" }}
-              />
+            <div className="w-full rounded-full overflow-hidden" style={{ background: "#1A1A1A", height: 2 }}>
+              <div className="h-full rounded-full transition-all" style={{ width: "99.8%", background: "#4A7C59" }} />
             </div>
-            <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-              <span>LATENCY: 42ms</span>
-              <span className="text-cyan-300 flex items-center gap-1">
-                <Radio className="w-2.5 h-2.5 animate-pulse text-cyan-400" />
-                TROLL SYNC
+            <div className="mt-2 flex items-center justify-between" style={{ color: "#4A4540", fontSize: "10px" }}>
+              <span>42ms</span>
+              <span className="flex items-center gap-1">
+                <Radio className="w-2.5 h-2.5 animate-pulse-bronze" style={{ color: "#B8A58A" }} />
+                TROLL
               </span>
             </div>
           </div>
 
-          {/* Settings link */}
+          {/* Settings */}
           <Link
             href="/settings"
             onClick={() => setMobileOpen(false)}
-            className={`flex items-center space-x-3 px-3 py-2 rounded-md text-xs font-medium transition-colors ${
+            className="flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-all"
+            style={
               pathname === "/settings"
-                ? "bg-cyan-500/15 text-cyan-300 border border-cyan-500/30"
-                : "text-slate-400 hover:text-slate-200 hover:bg-polar-900"
-            }`}
+                ? { color: "#B8A58A", background: "rgba(184,165,138,0.08)", border: "1px solid rgba(184,165,138,0.15)" }
+                : { color: "#8C8578", border: "1px solid transparent" }
+            }
           >
-            <Settings className="w-4 h-4 text-slate-400" />
-            <span>Settings & Vessel Specs</span>
+            <Settings className="w-3.5 h-3.5" style={{ color: "#4A4540" }} />
+            <span>Settings</span>
           </Link>
         </div>
       </aside>

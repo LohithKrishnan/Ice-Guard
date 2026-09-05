@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-polar-950 text-slate-100 antialiased min-h-screen flex overflow-hidden">
+      <body className="antialiased min-h-screen flex overflow-hidden" style={{ background: "#0D0D0D", color: "#F2F0EB", fontFamily: "Inter, system-ui, sans-serif" }}>
         <SimulationProvider>
           <NavigationProvider>
             {/* Command Center Sidebar */}
@@ -28,7 +28,7 @@ export default function RootLayout({
             {/* Main Operational Viewport */}
             <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
               <TopBar />
-              <main className="flex-1 overflow-y-auto bg-gradient-to-b from-polar-950 via-polar-900/60 to-polar-950 p-3 sm:p-5 relative">
+              <main className="flex-1 overflow-y-auto relative" style={{ background: "#0D0D0D", padding: "20px" }}>
                 {children}
               </main>
             </div>

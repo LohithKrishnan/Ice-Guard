@@ -9,11 +9,7 @@ import {
   X,
   Minimize2,
   Maximize2,
-  ChevronDown,
-  Compass,
-  MessageSquare,
   ArrowRight,
-  ShieldCheck,
   CheckCircle2,
 } from "lucide-react";
 import { CopilotMessage } from "@/services/types";
@@ -85,10 +81,9 @@ export default function AICopilot() {
 
   const handleAction = (actionButton: CopilotMessage["actionButton"]) => {
     if (!actionButton) return;
-
     if (actionButton.actionType === "APPLY_ROUTE") {
       setActiveRouteId(actionButton.payload);
-      setActionSuccessMsg("Balanced AI Route successfully loaded into navigation autopilot!");
+      setActionSuccessMsg("Route applied to navigation autopilot.");
       setTimeout(() => setActionSuccessMsg(null), 4000);
     } else if (actionButton.actionType === "VIEW_MAP") {
       setSelectedIcebergId(actionButton.payload);
@@ -100,57 +95,114 @@ export default function AICopilot() {
 
   return (
     <div className="fixed bottom-5 right-5 z-40">
-      {/* Minimized / Closed Floating Trigger Pill */}
+      {/* Trigger pill */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center space-x-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-mono font-semibold text-xs shadow-cyan-glow border border-cyan-300/40 transition-all transform hover:scale-105"
+          className="flex items-center gap-2.5 transition-all hover:opacity-90"
+          style={{
+            padding: "10px 18px",
+            borderRadius: 999,
+            background: "#1A1A1A",
+            border: "1px solid rgba(184,165,138,0.25)",
+            color: "#F2F0EB",
+            fontSize: 12,
+            fontWeight: 500,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
+          }}
         >
           <div className="relative">
-            <Bot className="w-5 h-5 text-white" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <Bot className="w-4 h-4" style={{ color: "#B8A58A" }} />
+            <span
+              className="absolute -top-1 -right-1 w-2 h-2 rounded-full animate-pulse-bronze"
+              style={{ background: "#4A7C59" }}
+            />
           </div>
           <span>ICEGUARD COPILOT</span>
-          <span className="text-[10px] px-1.5 py-0.2 rounded bg-cyan-900/60 border border-cyan-400/30 text-cyan-200">
+          <span
+            className="font-mono"
+            style={{
+              fontSize: 9,
+              padding: "2px 6px",
+              borderRadius: 4,
+              background: "rgba(184,165,138,0.1)",
+              color: "#B8A58A",
+              border: "1px solid rgba(184,165,138,0.2)",
+              letterSpacing: "0.1em",
+            }}
+          >
             AI
           </span>
         </button>
       )}
 
-      {/* Floating Chat Modal */}
+      {/* Chat modal */}
       {isOpen && (
         <div
-          className={`bg-polar-950/95 backdrop-blur-xl border border-cyan-500/40 rounded-xl shadow-2xl flex flex-col transition-all duration-200 ${
-            isMinimized ? "w-80 h-12" : "w-88 sm:w-[420px] h-[580px]"
-          }`}
+          className={`flex flex-col transition-all duration-200`}
+          style={{
+            width: isMinimized ? 320 : 420,
+            height: isMinimized ? 48 : 560,
+            background: "#111111",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 10,
+            boxShadow: "0 16px 48px rgba(0,0,0,0.8)",
+            overflow: "hidden",
+          }}
         >
-          {/* Copilot Header */}
-          <div className="h-12 px-4 border-b border-polar-750 flex items-center justify-between bg-polar-900/80 rounded-t-xl select-none">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-sm">
-                <Bot className="w-4 h-4" />
+          {/* Header */}
+          <div
+            className="flex items-center justify-between select-none flex-shrink-0"
+            style={{
+              height: 48,
+              padding: "0 14px",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              background: "#161616",
+            }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className="flex items-center justify-center rounded"
+                style={{
+                  width: 26,
+                  height: 26,
+                  background: "rgba(184,165,138,0.1)",
+                  border: "1px solid rgba(184,165,138,0.2)",
+                }}
+              >
+                <Bot className="w-3.5 h-3.5" style={{ color: "#B8A58A" }} />
               </div>
               <div>
-                <span className="font-mono font-bold text-white text-xs">
+                <span className="font-semibold tracking-wider" style={{ color: "#F2F0EB", fontSize: 11, letterSpacing: "0.08em" }}>
                   ICEGUARD COPILOT
                 </span>
-                <span className="ml-2 text-[9px] px-1.5 py-0.2 rounded font-mono bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 font-bold">
-                  FASTAPI LIVE
+                <span
+                  className="ml-2 font-mono"
+                  style={{
+                    fontSize: 9,
+                    padding: "1px 5px",
+                    borderRadius: 3,
+                    background: "rgba(74,124,89,0.15)",
+                    color: "#4A7C59",
+                    border: "1px solid rgba(74,124,89,0.25)",
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  LIVE
                 </span>
               </div>
             </div>
-
-            <div className="flex items-center space-x-1 text-slate-400">
+            <div className="flex items-center gap-1" style={{ color: "#4A4540" }}>
               <button
                 onClick={() => setIsMinimized(!isMinimized)}
-                className="p-1 hover:text-white rounded"
+                className="p-1.5 rounded transition-colors hover:opacity-80"
                 title={isMinimized ? "Expand" : "Minimize"}
               >
                 {isMinimized ? <Maximize2 className="w-3.5 h-3.5" /> : <Minimize2 className="w-3.5 h-3.5" />}
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1 hover:text-white rounded"
+                className="p-1.5 rounded transition-colors hover:opacity-80"
                 title="Close"
               >
                 <X className="w-4 h-4" />
@@ -160,71 +212,117 @@ export default function AICopilot() {
 
           {!isMinimized && (
             <>
-              {/* Action Success Toast */}
+              {/* Success toast */}
               {actionSuccessMsg && (
-                <div className="mx-3 mt-2 p-2 rounded bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs flex items-center gap-2 animate-in fade-in">
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
-                  <span className="font-mono text-[11px]">{actionSuccessMsg}</span>
+                <div
+                  className="flex items-center gap-2 mx-3 mt-2 rounded animate-in fade-in"
+                  style={{
+                    padding: "8px 12px",
+                    background: "rgba(74,124,89,0.12)",
+                    border: "1px solid rgba(74,124,89,0.25)",
+                    color: "#4A7C59",
+                    fontSize: 11,
+                  }}
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>{actionSuccessMsg}</span>
                 </div>
               )}
 
-              {/* Messages Container */}
-              <div className="flex-1 p-3.5 overflow-y-auto space-y-3 text-xs">
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto space-y-3 p-3.5" style={{ fontSize: 12 }}>
                 {messages.map((msg) => (
                   <div
                     key={msg.id}
-                    className={`flex flex-col ${
-                      msg.sender === "user" ? "items-end" : "items-start"
-                    }`}
+                    className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                   >
                     <div
-                      className={`max-w-[90%] rounded-lg p-3 text-xs leading-relaxed ${
-                        msg.sender === "user"
-                          ? "bg-cyan-600/30 border border-cyan-500/50 text-cyan-100 font-medium"
-                          : "bg-polar-900/90 border border-polar-750 text-slate-200"
-                      }`}
+                      className="max-w-[90%] rounded-lg leading-relaxed"
+                      style={{
+                        padding: "10px 12px",
+                        background:
+                          msg.sender === "user"
+                            ? "rgba(184,165,138,0.1)"
+                            : "#161616",
+                        border:
+                          msg.sender === "user"
+                            ? "1px solid rgba(184,165,138,0.2)"
+                            : "1px solid rgba(255,255,255,0.06)",
+                        color: msg.sender === "user" ? "#F2F0EB" : "#D5CFBF",
+                      }}
                     >
-                      <div className="whitespace-pre-line prose prose-invert prose-xs">
-                        {msg.text}
-                      </div>
-
-                      {/* Optional Action Button embedded in response */}
+                      <div className="whitespace-pre-line">{msg.text}</div>
                       {msg.actionButton && (
-                        <div className="mt-3 pt-2.5 border-t border-polar-750">
+                        <div
+                          className="mt-3 pt-2.5"
+                          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                        >
                           <button
                             onClick={() => handleAction(msg.actionButton)}
-                            className="w-full py-1.5 px-3 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono font-bold text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-cyan-glow"
+                            className="w-full flex items-center justify-center gap-1.5 rounded font-medium transition-all hover:opacity-90"
+                            style={{
+                              padding: "7px 12px",
+                              background: "rgba(184,165,138,0.12)",
+                              border: "1px solid rgba(184,165,138,0.25)",
+                              color: "#B8A58A",
+                              fontSize: 11,
+                            }}
                           >
                             <span>{msg.actionButton.label}</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
+                            <ArrowRight className="w-3 h-3" />
                           </button>
                         </div>
                       )}
                     </div>
-                    <span className="text-[9px] text-slate-500 font-mono mt-1 px-1">
+                    <span
+                      className="font-mono mt-1 px-1"
+                      style={{ color: "#4A4540", fontSize: 9 }}
+                    >
                       {msg.timestamp.slice(11, 16)} UTC
                     </span>
                   </div>
                 ))}
-
                 {isLoading && (
-                  <div className="flex items-center space-x-2 p-2.5 rounded-lg bg-polar-900 border border-polar-800 text-cyan-300 font-mono text-xs w-fit">
-                    <Sparkles className="w-3.5 h-3.5 animate-spin" />
-                    <span>Analyzing bathymetry & radar kinematics...</span>
+                  <div
+                    className="flex items-center gap-2 rounded w-fit"
+                    style={{
+                      padding: "8px 12px",
+                      background: "#161616",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                      color: "#8C8578",
+                    }}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 animate-spin" style={{ color: "#B8A58A" }} />
+                    <span style={{ fontSize: 11 }}>Analyzing…</span>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Suggested Query Chips */}
-              <div className="px-3 py-1.5 border-t border-polar-800 bg-polar-950/60 overflow-x-auto">
-                <div className="flex space-x-1.5 whitespace-nowrap scrollbar-none pb-0.5">
+              {/* Suggested queries */}
+              <div
+                className="overflow-x-auto"
+                style={{
+                  padding: "8px 12px",
+                  borderTop: "1px solid rgba(255,255,255,0.06)",
+                  background: "#0D0D0D",
+                }}
+              >
+                <div className="flex gap-1.5 whitespace-nowrap pb-0.5">
                   {SUGGESTED_QUERIES.map((query, i) => (
                     <button
                       key={i}
                       onClick={() => handleSend(query)}
                       disabled={isLoading}
-                      className="px-2.5 py-1 rounded-full text-[10px] font-mono bg-polar-900 hover:bg-polar-800 border border-polar-750 text-slate-300 hover:text-cyan-300 transition-colors flex-shrink-0"
+                      className="flex-shrink-0 transition-all hover:opacity-80"
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: 999,
+                        background: "rgba(255,255,255,0.03)",
+                        border: "1px solid rgba(255,255,255,0.07)",
+                        color: "#8C8578",
+                        fontSize: 10,
+                      }}
                     >
                       {query}
                     </button>
@@ -232,29 +330,46 @@ export default function AICopilot() {
                 </div>
               </div>
 
-              {/* Chat Input Field */}
+              {/* Input */}
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
+                onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+                className="flex items-center gap-2 flex-shrink-0"
+                style={{
+                  padding: "10px 12px",
+                  borderTop: "1px solid rgba(255,255,255,0.06)",
+                  background: "#161616",
                 }}
-                className="p-2.5 border-t border-polar-750 bg-polar-900/90 rounded-b-xl flex items-center space-x-2"
               >
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask polar navigator..."
+                  placeholder="Ask polar navigator…"
                   disabled={isLoading}
-                  className="flex-1 bg-polar-950 border border-polar-750 rounded-md px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+                  className="flex-1 outline-none"
+                  style={{
+                    background: "#0D0D0D",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    borderRadius: 6,
+                    padding: "7px 10px",
+                    fontSize: 12,
+                    color: "#F2F0EB",
+                  }}
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !input.trim()}
-                  className="p-2 rounded-md bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 text-white transition-colors"
+                  className="flex-shrink-0 transition-all hover:opacity-90 disabled:opacity-30"
+                  style={{
+                    padding: "7px 10px",
+                    borderRadius: 6,
+                    background: "rgba(184,165,138,0.12)",
+                    border: "1px solid rgba(184,165,138,0.2)",
+                    color: "#B8A58A",
+                  }}
                   aria-label="Send message"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-3.5 h-3.5" />
                 </button>
               </form>
             </>

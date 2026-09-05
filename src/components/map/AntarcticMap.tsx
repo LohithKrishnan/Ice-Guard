@@ -352,7 +352,7 @@ export default function AntarcticMap() {
   }, [layers, selectedIcebergId, snapshot, currentStep, activeRouteId, projectionMode, setSelectedIcebergId]);
 
   return (
-    <div className="relative w-full h-full min-h-[560px] bg-polar-950 flex flex-col overflow-hidden select-none">
+    <div className="relative w-full h-full min-h-[560px] flex flex-col overflow-hidden select-none" style={{ background: "#0D0D0D" }}>
       {/* Switch between Leaflet & Polar Radar — isolated stacking context keeps Leaflet z-indices contained */}
       {projectionMode === "polar" ? (
         <PolarRadarView />
@@ -367,26 +367,46 @@ export default function AntarcticMap() {
 
       {/* Floating Coordinates & Telemetry HUD at Bottom-Left */}
       <div className="absolute bottom-4 left-4 flex items-center space-x-2" style={{ zIndex: 1000 }}>
-        <div className="bg-polar-950/90 backdrop-blur-md border border-polar-750/80 px-3 py-1.5 rounded text-xs font-mono text-slate-300 flex items-center space-x-3 shadow-lg">
-          <div className="flex items-center space-x-1.5 text-cyan-400">
-            <Crosshair className="w-3.5 h-3.5 animate-spin-slow" />
-            <span className="font-semibold">RETICLE:</span>
+        <div
+          className="flex items-center space-x-3 rounded text-xs font-mono"
+          style={{
+            background: "rgba(13,13,13,0.94)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            backdropFilter: "blur(12px)",
+            padding: "6px 12px",
+            color: "#8C8578",
+          }}
+        >
+          <div className="flex items-center space-x-1.5" style={{ color: "#B8A58A" }}>
+            <Crosshair className="w-3 h-3 animate-spin-slow" />
+            <span className="font-semibold tracking-widest" style={{ fontSize: 9, letterSpacing: "0.1em" }}>RETICLE</span>
           </div>
-          <span>
+          <span style={{ color: "#F2F0EB" }}>
             {mouseCoords
               ? `${formatLat(mouseCoords.lat)} ${formatLng(mouseCoords.lng)}`
               : "-63°24'S 048°15'W"}
           </span>
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-400">DEPTH: 3,420m (BATHYMETRY)</span>
+          <span style={{ color: "#2A2A2A" }}>|</span>
+          <span style={{ color: "#4A4540", fontSize: 10 }}>DEPTH: 3,420m</span>
         </div>
       </div>
 
       {/* Selected Iceberg Popup Card Modal / Drawer */}
       {activeBergDetail && (
-        <div className="absolute bottom-6 right-6 w-84 sm:w-96 bg-polar-950/95 backdrop-blur-xl border border-cyan-500/50 rounded-lg p-4 shadow-2xl animate-in slide-in-from-bottom-3 text-xs" style={{ zIndex: 1000 }}>
+        <div
+          className="absolute bottom-6 right-6 rounded-lg text-xs animate-in slide-in-from-bottom-3"
+          style={{
+            zIndex: 1000,
+            width: 320,
+            background: "rgba(17,17,17,0.97)",
+            border: "1px solid rgba(255,255,255,0.09)",
+            backdropFilter: "blur(16px)",
+            boxShadow: "0 16px 48px rgba(0,0,0,0.8)",
+            padding: 16,
+          }}
+        >
           {/* Header */}
-          <div className="flex items-start justify-between pb-2 border-b border-polar-750">
+          <div className="flex items-start justify-between pb-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="font-mono text-base font-black text-white">

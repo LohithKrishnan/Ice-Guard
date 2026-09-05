@@ -10,7 +10,6 @@ import {
   Wind,
   Waves,
   Satellite,
-  Maximize2,
   Compass,
 } from "lucide-react";
 import { useNavigation, MapLayerState } from "@/context/NavigationContext";
@@ -25,94 +24,124 @@ export default function MapLayerControl({ onSelectSector }: MapLayerControlProps
   const layerButtons: Array<{
     key: keyof MapLayerState;
     label: string;
-    icon: React.ComponentType<{ className?: string }>;
-    color: string;
+    icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
   }> = [
-    { key: "seaIce", label: "Sea Ice", icon: Snowflake, color: "text-sky-400" },
-    { key: "icebergs", label: "Icebergs", icon: TriangleAlert, color: "text-cyan-400" },
-    { key: "trajectories", label: "Trajectories", icon: Navigation, color: "text-teal-400" },
-    { key: "vessels", label: "Vessels", icon: Ship, color: "text-blue-400" },
-    { key: "riskZones", label: "Risk Zones", icon: TriangleAlert, color: "text-rose-400" },
-    { key: "currents", label: "Currents", icon: Waves, color: "text-indigo-400" },
-    { key: "weather", label: "Weather", icon: Wind, color: "text-amber-400" },
-    { key: "satellite", label: "Satellite Swath", icon: Satellite, color: "text-purple-400" },
+    { key: "seaIce",      label: "Sea Ice",      icon: Snowflake    },
+    { key: "icebergs",    label: "Icebergs",     icon: TriangleAlert },
+    { key: "trajectories",label: "Trajectories", icon: Navigation   },
+    { key: "vessels",     label: "Vessels",      icon: Ship         },
+    { key: "riskZones",   label: "Risk Zones",   icon: TriangleAlert },
+    { key: "currents",    label: "Currents",     icon: Waves        },
+    { key: "weather",     label: "Weather",      icon: Wind         },
+    { key: "satellite",   label: "SAR Swath",    icon: Satellite    },
   ];
 
+  const panelStyle: React.CSSProperties = {
+    background: "rgba(13,13,13,0.96)",
+    border: "1px solid rgba(255,255,255,0.08)",
+    borderRadius: 8,
+    padding: 12,
+    backdropFilter: "blur(16px)",
+    maxWidth: 260,
+    boxShadow: "0 8px 32px rgba(0,0,0,0.7)",
+  };
+
   return (
-    <div className="bg-polar-950/90 backdrop-blur-md border border-polar-750/80 rounded-lg p-2.5 shadow-xl text-xs space-y-2.5 max-w-[280px]">
+    <div style={panelStyle}>
       {/* Header */}
-      <div className="flex items-center justify-between pb-1.5 border-b border-polar-800">
-        <div className="flex items-center space-x-1.5 font-mono font-semibold text-slate-200">
-          <Layers className="w-3.5 h-3.5 text-cyan-400" />
-          <span>TACTICAL LAYERS</span>
+      <div
+        className="flex items-center justify-between pb-2 mb-2"
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        <div className="flex items-center gap-2">
+          <Layers className="w-3 h-3" style={{ color: "#B8A58A" }} />
+          <span
+            className="uppercase tracking-widest font-semibold"
+            style={{ color: "#F2F0EB", fontSize: 9, letterSpacing: "0.15em" }}
+          >
+            Tactical Layers
+          </span>
         </div>
         <button
-          onClick={() =>
-            setProjectionMode(projectionMode === "mercator" ? "polar" : "mercator")
-          }
-          className={`px-1.5 py-0.5 rounded text-[10px] font-mono border transition-all ${
-            projectionMode === "polar"
-              ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/50"
-              : "bg-polar-900 text-slate-400 border-polar-750 hover:text-white"
-          }`}
-          title="Toggle South Polar Radar Projection"
+          onClick={() => setProjectionMode(projectionMode === "mercator" ? "polar" : "mercator")}
+          className="font-mono transition-all"
+          style={{
+            fontSize: 9,
+            padding: "3px 8px",
+            borderRadius: 4,
+            background: projectionMode === "polar" ? "rgba(184,165,138,0.12)" : "rgba(255,255,255,0.04)",
+            color: projectionMode === "polar" ? "#B8A58A" : "#4A4540",
+            border: projectionMode === "polar" ? "1px solid rgba(184,165,138,0.2)" : "1px solid rgba(255,255,255,0.06)",
+            letterSpacing: "0.1em",
+          }}
         >
-          {projectionMode === "polar" ? "POLAR EPSG:3031" : "MERCATOR"}
+          {projectionMode === "polar" ? "POLAR" : "MERCATOR"}
         </button>
       </div>
 
-      {/* Toggles Grid */}
-      <div className="grid grid-cols-2 gap-1.5">
-        {layerButtons.map(({ key, label, icon: Icon, color }) => {
+      {/* Layer toggles */}
+      <div className="grid grid-cols-2 gap-1">
+        {layerButtons.map(({ key, label, icon: Icon }) => {
           const active = layers[key];
           return (
             <button
               key={key}
               onClick={() => toggleLayer(key)}
-              className={`flex items-center space-x-1.5 px-2 py-1.5 rounded transition-all text-left ${
-                active
-                  ? "bg-polar-850/90 text-white border border-cyan-500/30 shadow-sm"
-                  : "bg-polar-900/50 text-slate-500 border border-transparent hover:text-slate-300 hover:bg-polar-900"
-              }`}
+              className="flex items-center gap-1.5 rounded text-left transition-all"
+              style={{
+                padding: "6px 8px",
+                fontSize: 10,
+                background: active ? "rgba(184,165,138,0.08)" : "rgba(255,255,255,0.02)",
+                color: active ? "#F2F0EB" : "#4A4540",
+                border: active ? "1px solid rgba(184,165,138,0.15)" : "1px solid rgba(255,255,255,0.04)",
+              }}
             >
-              <Icon className={`w-3 h-3 ${active ? color : "text-slate-500"}`} />
-              <span className="truncate text-[11px] font-medium">{label}</span>
+              <Icon className="w-3 h-3 flex-shrink-0" style={{ color: active ? "#B8A58A" : "#2A2A2A" }} />
+              <span className="truncate">{label}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Sector Quick Jump */}
+      {/* Quick sector jump */}
       {onSelectSector && (
-        <div className="pt-2 border-t border-polar-800 space-y-1">
-          <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-            QUICK SECTORS
+        <div className="mt-3 pt-2" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <div
+            className="uppercase tracking-widest mb-2"
+            style={{ color: "#4A4540", fontSize: 9, letterSpacing: "0.14em" }}
+          >
+            Quick Sectors
           </div>
-          <div className="grid grid-cols-2 gap-1 text-[10px] font-mono">
-            <button
-              onClick={() => onSelectSector("weddell")}
-              className="px-1.5 py-1 rounded bg-polar-900 hover:bg-polar-800 text-slate-300 hover:text-cyan-300 border border-polar-800 text-center"
-            >
-              Weddell / A23A
-            </button>
-            <button
-              onClick={() => onSelectSector("ross")}
-              className="px-1.5 py-1 rounded bg-polar-900 hover:bg-polar-800 text-slate-300 hover:text-cyan-300 border border-polar-800 text-center"
-            >
-              Ross Sea
-            </button>
-            <button
-              onClick={() => onSelectSector("drake")}
-              className="px-1.5 py-1 rounded bg-polar-900 hover:bg-polar-800 text-slate-300 hover:text-cyan-300 border border-polar-800 text-center"
-            >
-              Drake Passage
-            </button>
-            <button
-              onClick={() => onSelectSector("overview")}
-              className="px-1.5 py-1 rounded bg-polar-900 hover:bg-polar-800 text-slate-300 hover:text-cyan-300 border border-polar-800 text-center"
-            >
-              All Antarctica
-            </button>
+          <div className="grid grid-cols-2 gap-1">
+            {[
+              { key: "weddell", label: "Weddell / A23A" },
+              { key: "ross",    label: "Ross Sea" },
+              { key: "drake",   label: "Drake Passage" },
+              { key: "overview",label: "All Antarctica" },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => onSelectSector(key as any)}
+                className="rounded text-center transition-all"
+                style={{
+                  padding: "5px 8px",
+                  fontSize: 10,
+                  background: "rgba(255,255,255,0.02)",
+                  color: "#8C8578",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#B8A58A";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(184,165,138,0.2)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = "#8C8578";
+                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.05)";
+                }}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       )}

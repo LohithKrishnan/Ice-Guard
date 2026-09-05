@@ -26,58 +26,79 @@ export default function KpiCard({
   colorScheme = "cyan",
   footerNotice,
 }: KpiCardProps) {
-  const schemeStyles = {
-    cyan: "border-cyan-500/30 text-cyan-400 bg-cyan-950/10",
-    emerald: "border-emerald-500/30 text-emerald-400 bg-emerald-950/10",
-    amber: "border-amber-500/30 text-amber-400 bg-amber-950/10",
-    rose: "border-red-500/30 text-red-400 bg-red-950/10",
-    blue: "border-blue-500/30 text-blue-400 bg-blue-950/10",
-  }[colorScheme];
+  // Map legacy color schemes to muted equivalents
+  const trendColor =
+    trendSeverity === "warning"
+      ? "#9C7B2A"
+      : trendSeverity === "negative"
+      ? "#8B2A2A"
+      : "#4A7C59";
 
   return (
-    <div className="bg-polar-900/90 backdrop-blur-md border border-polar-750/90 rounded-lg p-3.5 shadow-panel-glow flex flex-col justify-between relative overflow-hidden group hover:border-cyan-500/40 transition-all">
-      {/* Subtle background glow */}
-      <div className="absolute -top-12 -right-12 w-28 h-28 rounded-full bg-cyan-500/5 blur-2xl pointer-events-none" />
-
-      {/* Top Header */}
-      <div className="flex items-center justify-between text-[11px] font-mono tracking-wider uppercase text-slate-400">
-        <span>{label}</span>
+    <div
+      className="flex flex-col justify-between relative overflow-hidden transition-all"
+      style={{
+        background: "#111111",
+        border: "1px solid rgba(255,255,255,0.07)",
+        borderRadius: 8,
+        padding: "14px 16px",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.4)",
+      }}
+    >
+      {/* Label + Icon */}
+      <div className="flex items-center justify-between">
+        <span
+          className="uppercase tracking-widest font-medium"
+          style={{ color: "#4A4540", fontSize: 9, letterSpacing: "0.14em" }}
+        >
+          {label}
+        </span>
         {Icon && (
-          <div className={`p-1.5 rounded-md border ${schemeStyles}`}>
-            <Icon className="w-3.5 h-3.5" />
+          <div
+            className="flex items-center justify-center rounded"
+            style={{
+              width: 26,
+              height: 26,
+              background: "rgba(184,165,138,0.07)",
+              border: "1px solid rgba(184,165,138,0.12)",
+            }}
+          >
+            <Icon className="w-3 h-3" style={{ color: "#B8A58A" }} />
           </div>
         )}
       </div>
 
-      {/* Main Metric Value */}
-      <div className="my-2">
-        <div className="text-2xl lg:text-3xl font-mono font-black tracking-tight text-white flex items-baseline space-x-2">
-          <span>{value}</span>
-          {subValue && <span className="text-xs font-normal text-slate-400 font-mono">{subValue}</span>}
-        </div>
+      {/* Value */}
+      <div className="my-3 flex items-baseline gap-1.5">
+        <span
+          className="font-semibold tracking-tight"
+          style={{ color: "#F2F0EB", fontSize: 28, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}
+        >
+          {value}
+        </span>
+        {subValue && (
+          <span style={{ color: "#4A4540", fontSize: 11 }}>{subValue}</span>
+        )}
       </div>
 
-      {/* Trend indicator & footnote */}
-      <div className="flex items-center justify-between text-[11px] font-mono pt-2 border-t border-polar-800">
+      {/* Footer */}
+      <div
+        className="flex items-center justify-between pt-2"
+        style={{ borderTop: "1px solid rgba(255,255,255,0.04)", fontSize: 10 }}
+      >
         {change && (
-          <div className="flex items-center space-x-1">
-            {trend === "up" && <ArrowUpRight className="w-3.5 h-3.5 text-cyan-400" />}
-            {trend === "down" && <ArrowDownRight className="w-3.5 h-3.5 text-rose-400" />}
-            {trend === "neutral" && <Minus className="w-3.5 h-3.5 text-slate-400" />}
-            <span
-              className={
-                trendSeverity === "warning"
-                  ? "text-amber-400"
-                  : trendSeverity === "negative"
-                  ? "text-red-400"
-                  : "text-emerald-400"
-              }
-            >
-              {change}
-            </span>
+          <div className="flex items-center gap-1">
+            {trend === "up" && <ArrowUpRight className="w-3 h-3" style={{ color: trendColor }} />}
+            {trend === "down" && <ArrowDownRight className="w-3 h-3" style={{ color: trendColor }} />}
+            {trend === "neutral" && <Minus className="w-3 h-3" style={{ color: "#4A4540" }} />}
+            <span style={{ color: trendColor }}>{change}</span>
           </div>
         )}
-        {footerNotice && <span className="text-slate-500 text-[10px] ml-auto">{footerNotice}</span>}
+        {footerNotice && (
+          <span className="ml-auto font-mono" style={{ color: "#4A4540", fontSize: 9 }}>
+            {footerNotice}
+          </span>
+        )}
       </div>
     </div>
   );
