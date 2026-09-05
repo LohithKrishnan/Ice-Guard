@@ -1,0 +1,8 @@
+{
+  "dataset_name": "Copernicus CMEMS Southern Ocean Hydrodynamics",
+  "data_provenance": "REAL DATA",
+  "ingestion_timestamp": "2026-09-05T09:05:40.910382+00:00",
+  "record_count": 355,
+  "mean_current_speed_knots": 0.5884507042253521,
+  "mean_sst_c": -1.582619718309859
+}

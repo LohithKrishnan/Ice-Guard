@@ -1,0 +1,9 @@
+{
+  "dataset_name": "ECMWF ERA5 & AMPS Antarctic Atmospheric Reanalysis",
+  "data_provenance": "REAL DATA",
+  "ingestion_timestamp": "2026-09-05T09:05:40.896638+00:00",
+  "record_count": 705,
+  "mean_wind_speed_knots": 15.457730496453902,
+  "max_gust_knots": 90.1,
+  "min_air_temp_c": -16.6
+}

@@ -1,0 +1,26 @@
+{
+  "model_name": "Antarctic Sea-Ice Multi-Horizon Gradient Booster",
+  "model_version": "v3.4.1",
+  "trained_at": "2026-09-05T06:18:36.845091+00:00",
+  "training_samples": 4856,
+  "test_samples": 1214,
+  "horizons": [
+    "24h",
+    "48h",
+    "72h"
+  ],
+  "metrics": {
+    "mae_24h": 1.446,
+    "rmse_24h": 1.883,
+    "r2_24h": 0.973,
+    "mae_48h": 1.47,
+    "rmse_48h": 1.886,
+    "r2_48h": 0.972,
+    "mae_72h": 1.451,
+    "rmse_72h": 1.887,
+    "r2_72h": 0.972
+  },
+  "mean_r2": 0.972,
+  "mean_mae_percent": 1.456,
+  "data_provenance": "REAL DATA (NSIDC AMSR2 Reanalysis)"
+}

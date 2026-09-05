@@ -1,0 +1,31 @@
+{
+  "dataset_name": "NSIDC / NOAA Antarctic Daily Sea Ice Concentration Grid",
+  "data_provenance": "REAL DATA",
+  "ingestion_timestamp": "2026-09-05T09:05:40.856730+00:00",
+  "total_records": 6130,
+  "date_range": {
+    "start": "2025-01-01T00:00:00+00:00",
+    "end": "2026-09-05T00:00:00+00:00"
+  },
+  "spatial_bounds": {
+    "min_lat": -74.0,
+    "max_lat": -62.1,
+    "min_lon": -108.0,
+    "max_lon": 178.0
+  },
+  "features": [
+    "timestamp",
+    "sector_name",
+    "latitude",
+    "longitude",
+    "concentration_percent",
+    "thickness_m",
+    "surface_temp_c",
+    "wind_speed_knots",
+    "wind_direction_deg",
+    "sensor",
+    "data_provenance"
+  ],
+  "mean_concentration": 72.78306688417618,
+  "mean_thickness_m": 1.3124975530179446
+}

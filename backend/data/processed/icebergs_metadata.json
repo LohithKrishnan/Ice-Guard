@@ -1,0 +1,19 @@
+{
+  "dataset_name": "BYU / USNIC Antarctic Iceberg Tracking Database",
+  "data_provenance": "REAL DATA",
+  "ingestion_timestamp": "2026-09-05T09:05:40.876075+00:00",
+  "tracked_iceberg_count": 6,
+  "iceberg_ids": [
+    "A23A",
+    "A76A",
+    "A81",
+    "B15A-FRAG",
+    "B31",
+    "D28"
+  ],
+  "total_observations": 198,
+  "date_range": {
+    "start": "2026-06-01T00:00:00+00:00",
+    "end": "2026-09-05T00:00:00+00:00"
+  }
+}

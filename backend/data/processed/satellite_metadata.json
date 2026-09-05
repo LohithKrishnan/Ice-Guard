@@ -1,0 +1,6 @@
+{
+  "dataset_name": "Copernicus & NASA Polar Orbiting Satellite Telemetry",
+  "data_provenance": "REAL DATA",
+  "ingestion_timestamp": "2026-09-05T06:14:45.397418+00:00",
+  "passes_available": 4
+}

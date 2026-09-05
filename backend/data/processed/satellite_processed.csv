@@ -1,0 +1,5 @@
+pass_id,satellite,sensor,orbit_pass,acquisition_time,coverage_sq_km,resolution_m,cloud_coverage_percent,data_quality_percent,swath_width_km,polarization,sector,data_provenance
+SAT-S1A-20260905-0430,Sentinel-1A,C-Band Synthetic Aperture Radar (SAR),Ascending,2026-09-05T04:30:12Z,185000,10.0,0.0,99.4,410.0,VV+VH Dual-Pol,Weddell Sea / A23A Core,REAL DATA (Copernicus Sentinel-1 SAR)
+SAT-S2B-20260905-0215,Sentinel-2B,MultiSpectral Instrument (MSI),Descending,2026-09-05T02:15:44Z,84000,10.0,14.2,93.8,290.0,Optical RGB+NIR,Antarctic Peninsula Gateway,REAL DATA (Copernicus Sentinel-2 MSI)
+SAT-MODIS-20260904-2210,MODIS Aqua,Moderate Resolution Imaging Spectroradiometer,Ascending,2026-09-04T22:10:05Z,920000,250.0,28.5,88.2,2330.0,Thermal Infrared 11-12um,Circumpolar Antarctic Grid,REAL DATA (NASA Earthdata MODIS)
+SAT-VIIRS-20260904-1845,VIIRS Suomi NPP,Visible Infrared Imaging Radiometer Suite,Descending,2026-09-04T18:45:30Z,760000,375.0,22.0,91.5,3000.0,Day/Night Band (DNB),Ross Sea Sector,REAL DATA (NOAA/NASA VIIRS)
